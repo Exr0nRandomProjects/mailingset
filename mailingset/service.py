@@ -24,6 +24,9 @@ Mailing Set can be added to a Twisted application using the following code:
     service.setServiceParent(application)
 
 """
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import email
 from email import Header
 from email import parser
@@ -34,10 +37,10 @@ from zope.interface import implementer
 from twisted.mail import smtp
 from twisted.python import log
 
-from mailman import subject_prefix
+from .mailman import subject_prefix
 
-from state import MailingSetState
-import parser
+from .state import MailingSetState
+from . import parser
 
 
 __all__ = ['SetSMTPFactory']

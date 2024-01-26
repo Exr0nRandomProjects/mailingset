@@ -17,6 +17,8 @@
 
 """Subject header prefix munging."""
 
+from builtins import str
+from builtins import object
 __all__ = [
     'SubjectPrefix',
     ]
@@ -129,7 +131,7 @@ def mixed_charsets(mlist, msgdata, subject, prefix, prefix_pattern, ws):
 
 
 @implementer(IHandler)
-class SubjectPrefix:
+class SubjectPrefix(object):
     """Add a list-specific prefix to the Subject header value."""
 
     name = 'subject-prefix'

@@ -39,6 +39,8 @@ Examples:
     {sf_|_la}_&_dog_&_cat   People in SF or LA who own both dogs and cats.
 
 """
+from builtins import next
+from builtins import object
 import re
 
 
@@ -121,7 +123,7 @@ def _expression(tokens, rbp=0):
             raise SyntaxError(msg)
 
         # Parse the next subexpression and combine
-        prev_op = tokens.next()
+        prev_op = next(tokens)
         cur = prev_op.led(tokens, cur)
 
     return cur
@@ -137,16 +139,16 @@ class _PeekableStream(object):
                 retrieved by calling next() on this object.
         """
         self._source = source
-        self._head = self._source.next()
+        self._head = next(self._source)
 
     def peek(self):
         """Gets one value from the source without advancing the source."""
         return self._head
 
-    def next(self):
+    def __next__(self):
         """Gets one value from the source and advances the source past it."""
         value = self._head
-        self._head = self._source.next()
+        self._head = next(self._source)
         return value
 
 
@@ -348,7 +350,7 @@ class _LeftParenToken(object):
             raise SyntaxError('Unmatched opening parenthesis')
         # Call 'next' here instead of where 'peek' is called above so that it is
         # not possible to consume the end-of-input token
-        tokens.next()
+        next(tokens)
 
         return expr
 
