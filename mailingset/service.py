@@ -174,7 +174,7 @@ class SetMessageDelivery(object):
         """
         # Check for domain matching server's domain
         domain = user.dest.domain
-        if domain != self.config.get('incoming', 'domain'):
+        if domain != self.config.get('incoming', 'domain').encode():
             log.msg('Rejecting domain %s' % (domain,))
             reason = 'Incorrect domain: %s' % (domain,)
             raise smtp.SMTPBadRcpt(user, resp=reason)
@@ -182,7 +182,7 @@ class SetMessageDelivery(object):
         # Try to parse address as set expression
         local = user.dest.local
         try:
-            subject_tag, recipient_set = self.parse(local)
+            subject_tag, recipient_set = self.parse(local.decode())
         except SyntaxError as error:
             log.msg('Rejecting address %s: %s' % (local, error))
             reason = str(error)
