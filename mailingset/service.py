@@ -28,7 +28,6 @@ from __future__ import absolute_import
 from builtins import str
 from builtins import object
 import email
-from email import Header
 from email import parser
 import netaddr
 
@@ -143,7 +142,9 @@ class SetMessageDelivery(object):
         """
         good = self.config.get('incoming', 'accept_from', fallback='0.0.0.0/0')
         for cidr in good.split(','):
-            if helo[1] in netaddr.IPNetwork(cidr):
+            client_ip = helo[1].decode() if isinstance(helo[1], bytes) else helo[1] # twisted uses bytes for addresses, but netaddr automatically uses strings when it detects python3, so we should convert to string here. ~@exr0n jan024
+
+            if client_ip in netaddr.IPNetwork(cidr):
                 # Accept messages from this address
                 log.msg('Receiving from %s %s' % (helo, origin))
                 return origin
