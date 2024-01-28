@@ -110,7 +110,7 @@ def _expression(tokens, rbp=0):
     """
     # Parse the subexpression preceding the first adjoining operator or token of
     # lower precedence
-    cur = tokens.next().nud(tokens)
+    cur = next(tokens).nud(tokens)
 
     # Keep track of the most recent adjoining operator to check that they are
     # all of the same type
@@ -119,7 +119,7 @@ def _expression(tokens, rbp=0):
     while rbp < tokens.peek().lbp:
         # Check for missing parenthesization ambiguity like in "sf_&_dog_|_cat"
         if prev_op and prev_op.symbol is not tokens.peek().symbol:
-            msg = "Parentheses required when mixing different operators"
+            msg = u"Parentheses required when mixing different operators"
             raise SyntaxError(msg)
 
         # Parse the next subexpression and combine
