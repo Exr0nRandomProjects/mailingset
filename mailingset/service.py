@@ -120,9 +120,9 @@ class SetMessageDelivery(object):
         """
         client_hostname, _ = helo
         server_hostname = self.protocol.transport.getHost().host
-        header_value = 'from %s by %s with ESMTP ; %s' % (
-            client_hostname, server_hostname, smtp.rfc822date())
-        return 'Received: %s' % (email.Header.Header(header_value),)
+        header_value = b'from %s by %s with ESMTP ; %s' % (
+            client_hostname, server_hostname.encode(), smtp.rfc822date())
+        return 'Received: %s' % (email.header.Header(header_value),)
 
     def validateFrom(self, helo, origin):
         """Validate the address from which the message originates.
