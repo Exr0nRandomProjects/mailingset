@@ -16,7 +16,6 @@
 
 
 import configparser
-import nose
 import os
 
 from twisted.trial import unittest
